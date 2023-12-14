@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasks-deployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: tasks
+  template: 
+    metadata:
+      labels:
+        app: tasks
+    spec:
+      containers:
+        - name: tasks
+          image: jayasanka/k8-tasks:latest
+          env:
+            - name: AUTH_ADDRESS
+              # value: "10.101.190.223"
+              value: "auth-service.default"
+            - name: TASKS_FOLDER
+              value: tasks
+        # - name: auth
+        #   image: jayasanka/k8-auth:latest

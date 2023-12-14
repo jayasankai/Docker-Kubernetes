@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app : second-app
+      tier: backend
+    # matchExpressions:
+    #   - {key : app, operator: NotIn, values: [second, third]}
+  template:
+    metadata:
+      labels: 
+        app : second-app
+        tier: backend
+    spec:
+      containers:
+        - name: second-node
+          image: jayasanka/k8-first-app:v2
+          livenessProbe: 
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5
+        # - name: third-node
+        #   image: jayasanka/k8-third-app:v1
+          volumeMounts:
+            - mountPath: /app/story
+              name: story-volume
+      volumes:
+        - name: story-volume
+          persistentVolumeClaim: 
+            claimName: host-pvc

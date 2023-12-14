@@ -1,0 +1,20 @@
+docker build -t feed-back:volumes .
+docker images
+docker rmi
+
+docker run -p 3000:80 --name feedback-volumes feed-back:volumes
+docker run -p 3000:80 --name feedback-volumes --rm -d feed-back:volumes
+docker run -p 3000:80 --name feedback-volumes --rm -d -v feedback:/app/feedback -v "/Users/jayasanka/projects/Docker-Kubernetes/5-data-volumes-01-starting-setup:/app:ro" -v /app/temp -v /app/node_modules feed-back:volumes
+docker run -p 3000:80 --name feedback-volumes --rm -d --env-file ./.env -v feedback:/app/feedback -v "/Users/jayasanka/projects/Docker-Kubernetes/5-data-volumes-01-starting-setup:/app:ro" -v /app/temp -v /app/node_modules feed-back:env
+
+docker volume ls 
+
+docker ps
+docker ps -a
+
+docker logs feedback-volumes
+docker logs -f feedback-volumes
+
+docker stop feedback-volumes
+
+docker rm feedback-volumes

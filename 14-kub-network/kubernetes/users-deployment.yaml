@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: users
+  template: 
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: jayasanka/k8-users:latest
+          env:
+            - name: AUTH_ADDRESS
+              # value: "10.101.190.223"
+              value: "auth-service.default"
+        # - name: auth
+        #   image: jayasanka/k8-auth:latest
